@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Tebak Angka</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
+    <script src="vue.js"></script>
+</head>
+<body>
+    <center>
+    <div id="app">
+        <h1 style="color: blue;">Tebak Angka (1-10)</h1>
+    
+        <form id="app" @submit="checkForm" action="https://vuejs.org/" method="post">
+            <p>
+                <label for="angka" style="color: red;">Tebakan</label>
+                <input :disabled="clicked" id="angka" v-model="angkaInput" type="number" name="age" min="0">
+            </p>
+            <p>
+                <input :disabled="clicked" type="submit" value="Submit" style="color: red;">
+            </p>
+    
+            <p v-if="jawaban == true && angkaInput != null && clicked == true" style="color: blue;">
+                Tebakan Benar
+                <button @click="mulai" type="reset" style="color: red;">Main lagi </button>
+            </p>
+            <div v-else-if="jawaban == false && angkaInput != null && clicked == true" style="color: blue;">
+                Tebakan Salah
+                <p v-if="counter > 0" style="color: blue;">Anda punya {{ counter }} kesempatan</p>
+                <p v-if="counter == 0" style="color: blue;">Kamu Kalah</p>
+                <p v-if="counter == 0" style="color: blue;">Jawaban = {{ angkaBenar }}</p>
+                <div v-if="counter == 0">
+                    <button @click="lagi" type="reset" style="color: red;">Main Lagi</button>
+                    </div>
+                <div v-else-if="counter > 0">
+                    <button @click="mulai" type="reset" style="color: red;">Tebak Lagi</button>
+                    </div>
+            </div>
+                <div class="card-body" style="margin: auto; color: green;">
+                    {{ name.nama }} | {{ name.npm }} | {{ name.kelas }}
+                </div>
+        </form>
+    </div>
+</center>
+</body>
+
+
+
+<script>
+    new Vue({
+  el: '#app',
+  data: {
+      name: {
+          nama: 'Indra Gautama',
+          npm: '180709818',
+          kelas: 'PAW A',
+      },
+      counter: 3,
+      clicked: false,
+      jawaban: false,
+      angkaBenar: Math.floor(Math.random() * 10) + 1,
+      angkaInput: null
+  },
+
+  methods: {
+      checkForm: function (e) {
+          if (this.angkaBenar == this.angkaInput) {
+              this.jawaban = true;
+              this.clicked = true;
+              this.counter = 3;
+          } else {
+              this.jawaban = false;
+              this.clicked = true;
+              this.counter--;
+          }
+          e.preventDefault();
+          console.log(angkaBenar)
+      },
+      mulai() {
+          this.jawaban = false;
+          this.clicked = false;
+          this.angkaInput = null;
+      },
+      lagi(){
+        location.reload();
+    }
+  },
+});
+</script>
+</html>
